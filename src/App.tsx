@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { UserFeed } from './UserFeed';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         >
           Learn React
         </a>
+        <UserFeed userID={'0'} filter={'date'}/>
       </header>
     </div>
   );
