@@ -2,7 +2,8 @@ import * as React from 'react';
 
 interface FeedItemsSeenInput {
   numTotalItems: number;
-  onAllItemsSeen: () => void; // callback to call
+  onAllItemsSeen: (setToRead: boolean) => void; // callback to call
+  onAllItemUnSeen: (setToRead: boolean) => void;
 }
 
 interface FeedItemsSeenOutput {
@@ -18,6 +19,7 @@ interface FeedItemsSeenOutput {
 export const useFeedItemsSeen = ({
   numTotalItems,
   onAllItemsSeen,
+  onAllItemUnSeen,
 }: FeedItemsSeenInput): FeedItemsSeenOutput => {
   const [numItemsSeen, setNumItemsSeen] = React.useState<number>(0);
 
@@ -27,10 +29,12 @@ export const useFeedItemsSeen = ({
     (num: number) => {
       setNumItemsSeen(num);
       if (num >= numTotalItems) {
-        onAllItemsSeen();
+        onAllItemsSeen(true);
+      } else if (num === 0) {
+        onAllItemUnSeen(false);
       }
     },
-    [setNumItemsSeen, numTotalItems, onAllItemsSeen],
+    [setNumItemsSeen, numTotalItems, onAllItemsSeen, onAllItemUnSeen],
   );
 
   return {

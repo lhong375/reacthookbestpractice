@@ -18,6 +18,7 @@ interface DataFeedOutput {
   items: Array<FeedItem>;
   refresh: () => void;
   markRead: (feedId: string) => void;
+  markAll: (setToRead: boolean) => void;
 }
 
 /**
@@ -62,6 +63,14 @@ export const useDataFeed = ({
     setItems(fetchedItems);
   }, [client, userID, filter, setItems]);
 
+  const markAll = React.useCallback(async (setToRead: boolean) => {
+    if (!client) {
+      return;
+    }
+    const itemsUpdated = items.map( (item:FeedItem) => { return {...item, read: setToRead}; } );
+    setItems(itemsUpdated);
+  }, [client, userID, filter, setItems]);
+
   const markRead = React.useCallback(async (feedId) => {
     if (!client) {
       return;
@@ -69,9 +78,10 @@ export const useDataFeed = ({
     console.log("markRead id="+feedId);
     let itemToMarkRead = items.find( (item:FeedItem) => item.id === feedId );
     if (itemToMarkRead) {
-      itemToMarkRead.read = true;
+      itemToMarkRead.read = !itemToMarkRead.read;
+      console.log("markRead id="+feedId, itemToMarkRead, items);
       setItems(items.slice());
-      //console.log("markRead id="+feedId, itemToMarkRead, items);
+
     }
   }, [client, userID, filter, setItems]);
 
@@ -79,6 +89,7 @@ export const useDataFeed = ({
     initialized,
     items,
     refresh,
+    markAll,
     markRead,
   };
 };

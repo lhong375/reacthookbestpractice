@@ -15,14 +15,15 @@ export const UserFeed = ({ userID, filter }: Props) => {
   // Section 1: Dependency gathering
   // This example gets a user and a related feed data
   const { user } = useUser({ id: userID });
-  const { items, refresh, markRead } = useDataFeed({ userID, filter });
+  const { items, refresh, markRead, markAll } = useDataFeed({ userID, filter });
 
   // Section 2: Component specific state and logic
   // This hook encapsulates stateful logic related to the user seeing the items.
   // This is the hook that we'd want to test.
   const { setNumItemsSeen, allItemsSeen, numItemsSeen } = useFeedItemsSeen({
     numTotalItems: items.length,
-    onAllItemsSeen: refresh,
+    onAllItemsSeen: markAll,
+    onAllItemUnSeen: markAll,
   });
 
   // Section 3: Presentational output
