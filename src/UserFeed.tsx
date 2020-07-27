@@ -22,6 +22,7 @@ export const UserFeed = ({ userID, filter }: Props) => {
   // This is the hook that we'd want to test.
   const { setNumItemsSeen, allItemsSeen, numItemsSeen } = useFeedItemsSeen({
     numTotalItems: items.length,
+    numTotalItemsSeen: items.filter((item) => item.read).length,
     onAllItemsSeen: markAll,
     onAllItemUnSeen: markAll,
   });
@@ -35,7 +36,7 @@ export const UserFeed = ({ userID, filter }: Props) => {
       refresh={refresh}
       setNumItemsSeen={setNumItemsSeen}
       allItemsSeen={allItemsSeen}
-      numItemsSeen={numItemsSeen}
+      numItemsSeen={items.filter((item) => item.read).length}
       markRead={markRead}
     />
   );

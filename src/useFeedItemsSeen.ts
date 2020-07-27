@@ -2,6 +2,7 @@ import * as React from 'react';
 
 interface FeedItemsSeenInput {
   numTotalItems: number;
+  numTotalItemsSeen: number; //why do we need this ?
   onAllItemsSeen: (setToRead: boolean) => void; // callback to call
   onAllItemUnSeen: (setToRead: boolean) => void;
 }
@@ -18,10 +19,11 @@ interface FeedItemsSeenOutput {
  */
 export const useFeedItemsSeen = ({
   numTotalItems,
+  numTotalItemsSeen,
   onAllItemsSeen,
   onAllItemUnSeen,
 }: FeedItemsSeenInput): FeedItemsSeenOutput => {
-  const [numItemsSeen, setNumItemsSeen] = React.useState<number>(0);
+  const [numItemsSeen, setNumItemsSeen] = React.useState<number>(numTotalItemsSeen);//not working, also do we really need useFeedItemsSeen ?
 
   // Set the internal state and call the callback if we've seen all items.
   // Internal logic we'd want to test.
